@@ -271,7 +271,7 @@
             this.listViewCheck.Size = new System.Drawing.Size(1006, 267);
             this.listViewCheck.TabIndex = 23;
             this.listViewCheck.UseCompatibleStateImageBehavior = false;
-            this.listViewCheck.View = System.Windows.Forms.View.List;
+            this.listViewCheck.View = System.Windows.Forms.View.Details;
             // 
             // buttonCheck
             // 
@@ -291,6 +291,7 @@
             this.buttonRename.TabIndex = 25;
             this.buttonRename.Text = "Rename!";
             this.buttonRename.UseVisualStyleBackColor = true;
+            this.buttonRename.Click += new System.EventHandler(this.buttonRename_Click);
             // 
             // Main
             // 

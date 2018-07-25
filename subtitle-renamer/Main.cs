@@ -25,6 +25,7 @@ namespace subtitle_renamer
             InitializeComponent();
 
             DisableInputs();
+            ListviewCheckInit();
         }
 
         private void DisableInputs()
@@ -51,6 +52,28 @@ namespace subtitle_renamer
 
             textBoxSubExtension.Enabled = false;
             textBoxMediaExtension.Enabled = false;
+        }
+
+        private void ListviewCheckInit()
+        {
+            var header = new ColumnHeader();
+            header.Text = "";
+            listViewCheck.Columns.Add(header);
+            header = new ColumnHeader();
+            header.Text = "Before";
+            listViewCheck.Columns.Add(header);
+            header = new ColumnHeader();
+            header.Text = "After";
+            listViewCheck.Columns.Add(header);
+
+            ListviewCheckAjustWidth();
+        }
+
+        private void ListviewCheckAjustWidth()
+        {
+            listViewCheck.Columns[0].Width = -2;
+            listViewCheck.Columns[1].Width = -2;
+            listViewCheck.Columns[2].Width = -2;
         }
 
         private void UpdateListView(List<string> filenames, ListView lv)
@@ -140,12 +163,6 @@ namespace subtitle_renamer
                     var start = canStartsWith[0].Length;
                     var len = mediaFiles[0].Length - shouldEndsWith.Length - start;
                     partToAdd = mediaFiles[0].Substring(start, len);
-
-                    if (partToAdd.Length > 0)
-                    {
-                        partToAdd += " etc";
-                    }
-
                     textBoxSubAdd.Text = partToAdd;
                 }
             }
@@ -198,12 +215,6 @@ namespace subtitle_renamer
                     var start = canStartsWith[0].Length;
                     var len = subFiles[0].Length - shouldEndsWith.Length - start;
                     partToDelete = subFiles[0].Substring(start, len);
-
-                    if (partToDelete.Length > 0)
-                    {
-                        partToDelete += " etc";
-                    }
-
                     textBoxSubDelete.Text = partToDelete;
                 }
             }
@@ -376,10 +387,98 @@ namespace subtitle_renamer
             FilterSubFiles();
         }
 
+
+        /**
+         * Check if can rename
+         */
+        private bool Check()
+        {
+            if (mediaFiles.Count == 0 || mediaFiles.Count != subFiles.Count)
+            {
+                return false;
+            }
+
+            var results = new List<string>();
+            for (int i = 0; i < mediaFiles.Count; i++)
+            {
+                string mediaPrefix = textBoxMediaPrefix.Text;
+                string subPrefix = textBoxSubPrefix.Text;
+
+                int episodeStrLen = textBoxSubEpEnd.Text.Length;
+
+                var tmp = subFiles[i];
+
+                if (checkBoxPrefix.Checked)
+                {
+                    // remove sub prefix
+                    tmp = tmp.Substring(subPrefix.Length);
+                    // add media prefix
+                    tmp = mediaPrefix + tmp;
+                }
+
+                var indexAfterEpisode = mediaPrefix.Length;
+                if (checkBoxEpisode.Checked)
+                {
+                    indexAfterEpisode += episodeStrLen;
+                }
+
+                // delete partToDelete
+                if (partToDelete.Length > 0)
+                {
+                    var startPart = tmp.Substring(0, indexAfterEpisode);
+                    var iStart = indexAfterEpisode + partToDelete.Length;
+                    var len = tmp.Length - iStart;
+                    var endPart = tmp.Substring(iStart, len);
+                    tmp = startPart + endPart;
+                }
+
+                results.Add(tmp);
+            }
+
+
+            // update listview check
+            listViewCheck.BeginUpdate();
+            listViewCheck.Items.Clear();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                var lvi = new ListViewItem(i.ToString());
+                lvi.SubItems.Add(subFiles[i]);
+                lvi.SubItems.Add(results[i]);
+                listViewCheck.Items.Add(lvi);
+            }
+
+            ListviewCheckAjustWidth();
+            listViewCheck.EndUpdate();
+
+            return true;
+        }
+
+        /**
+         * Check button onclick
+         */
         private void buttonCheck_Click(object sender, EventArgs e)
         {
-            var results = new List<string>();
+            if (Check())
+            {
+                MessageBox.Show("Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Error", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void buttonRename_Click(object sender, EventArgs e)
+        {
+            if (Check())
+            {
+
+            }
+            else
+            {
+
+            }
         }
     }
 }
