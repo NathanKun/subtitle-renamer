@@ -17,38 +17,40 @@ namespace subtitle_renamer
         private List<string> mediaFiles = new List<string>();
         private List<string> subFiles = new List<string>();
 
+        private string partToDelete = "";
+        private string partToAdd = "";
+
         public Main()
         {
             InitializeComponent();
 
-            textBoxDir.Enabled = false;
-            textBoxSubDelete.Enabled = false;
-            textBoxSubAdd.Enabled = false;
-            EnableInputs(false);
+            DisableInputs();
         }
 
-        private void EnableInputs(bool enabled)
+        private void DisableInputs()
         {
-            checkBoxPrefix.Enabled = enabled;
-            checkBoxEpisode.Enabled = enabled;
-            checkBoxDelete.Enabled = enabled;
-            checkBoxAdd.Enabled = enabled;
-            checkBoxSuffix.Enabled = enabled;
+            textBoxDir.Enabled = false;
 
-            textBoxSubSuffix.Enabled = enabled;
-            textBoxMediaSuffix.Enabled = enabled;
+            checkBoxPrefix.Enabled = false;
+            checkBoxEpisode.Enabled = false;
+            checkBoxDelete.Enabled = false;
+            checkBoxAdd.Enabled = false;
+            checkBoxSuffix.Enabled = false;
 
-            textBoxSubEpStart.Enabled = enabled;
-            textBoxSubEpEnd.Enabled = enabled;
+            textBoxSubSuffix.Enabled = false;
+            textBoxMediaSuffix.Enabled = false;
 
-            //textBoxSubDelete.Enabled = enabled;
-            //textBoxSubAdd.Enabled = enabled;
+            textBoxSubEpStart.Enabled = false;
+            textBoxSubEpEnd.Enabled = false;
 
-            textBoxSubPrefix.Enabled = enabled;
-            textBoxMediaPrefix.Enabled = enabled;
+            textBoxSubDelete.Enabled = false;
+            textBoxSubAdd.Enabled = false;
 
-            textBoxSubExtension.Enabled = enabled;
-            textBoxMediaExtension.Enabled = enabled;
+            textBoxSubPrefix.Enabled = false;
+            textBoxMediaPrefix.Enabled = false;
+
+            textBoxSubExtension.Enabled = false;
+            textBoxMediaExtension.Enabled = false;
         }
 
         private void UpdateListView(List<string> filenames, ListView lv)
@@ -64,6 +66,81 @@ namespace subtitle_renamer
             lv.EndUpdate();
         }
 
+        private List<string> GenerateEpisodeArray(string start, string end)
+        {
+            if (!int.TryParse(start, out int min) || !int.TryParse(end, out int max))
+            {
+                return null;
+            }
+
+            var list = new List<string>();
+            int len = end.Length;
+
+            for (int epInt = min; epInt < max + 1; epInt++)
+            {
+                var epStr = epInt.ToString();
+                for (int d = epStr.Length; d < len; d++)
+                {
+                    epStr = "0" + epStr;
+                }
+                list.Add(epStr);
+            }
+
+            return list;
+        }
+
+        private void FilterMediaFiles()
+        {
+            string ext = textBoxMediaExtension.Text.Trim();
+            string prefix = checkBoxPrefix.Checked ? textBoxMediaPrefix.Text : "";
+            string suffix = checkBoxSuffix.Checked ? textBoxMediaSuffix.Text : "";
+            List<string> eps = checkBoxEpisode.Checked ? GenerateEpisodeArray(textBoxSubEpStart.Text, textBoxSubEpEnd.Text) : null;
+
+            var canStartsWith = new List<string>();
+            if (eps == null)
+            {
+                canStartsWith.Add(prefix);
+            }
+            else
+            {
+                foreach (string ep in eps)
+                {
+                    canStartsWith.Add(prefix + ep);
+                }
+            }
+
+            var shouldEndsWith = suffix + ext;
+
+            if (ext.Length != 0)
+            {
+                mediaFiles.Clear();
+                foreach (string f in files)
+                {
+                    if (f.EndsWith(shouldEndsWith))
+                    {
+                        foreach (string start in canStartsWith)
+                        {
+                            if (f.StartsWith(start))
+                            {
+                                mediaFiles.Add(f);
+                                break;
+                            }
+                        }
+                    }
+                }
+                UpdateListView(mediaFiles, listViewMedia);
+
+                // partToDelete
+                if (mediaFiles.Count > 0 && canStartsWith.Count > 0)
+                {
+                    var start = canStartsWith[0].Length;
+                    var len = mediaFiles[0].Length - shouldEndsWith.Length - start;
+                    partToDelete = mediaFiles[0].Substring(start, len);
+                    textBoxSubDelete.Text = partToDelete;
+                }
+            }
+        }
+
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -73,14 +150,32 @@ namespace subtitle_renamer
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     files.Clear();
-                    files.AddRange(Directory.GetFiles(fbd.SelectedPath));
+
+                    var filesWithDir = Directory.GetFiles(fbd.SelectedPath);
+                    foreach (string f in filesWithDir)
+                    {
+                        string[] splited = f.Split('\\');
+
+                        files.Add(splited[splited.Length - 1]);
+                    }
 
                     textBoxDir.Text = fbd.SelectedPath;
+
                     textBoxMediaExtension.Enabled = true;
                     textBoxSubExtension.Enabled = true;
+
+                    checkBoxPrefix.Enabled = true;
+                    checkBoxEpisode.Enabled = true;
+                    checkBoxSuffix.Enabled = true;
+
+                    checkBoxDelete.Enabled = true;
                 }
             }
         }
+
+        /**
+         * Extension textboxes changed
+         */
 
         private void textBoxMediaExtension_TextChanged(object sender, EventArgs e)
         {
@@ -94,19 +189,7 @@ namespace subtitle_renamer
                 return;
             }
 
-            // search files with input extension and update listview
-            if (ext.Length != 0)
-            {
-                mediaFiles.Clear();
-                foreach(string f in files)
-                {
-                    if (f.EndsWith(ext))
-                    {
-                        mediaFiles.Add(f);
-                    }
-                }
-                UpdateListView(mediaFiles, listViewMedia);
-            }
+            FilterMediaFiles();
         }
 
         private void textBoxSubExtension_TextChanged(object sender, EventArgs e)
@@ -121,47 +204,72 @@ namespace subtitle_renamer
                 return;
             }
 
-            // search files with input extension and update listview
-            if (ext.Length != 0)
-            {
-                subFiles.Clear();
-                foreach (string f in files)
-                {
-                    if (f.EndsWith(ext))
-                    {
-                        subFiles.Add(f);
-                    }
-                }
-                UpdateListView(subFiles, listViewSub);
-            }
+            FilterMediaFiles();
         }
+
+        /**
+         * Media inputs changed
+         */
+
+        private void textBoxMediaPrefix_TextChanged(object sender, EventArgs e)
+        {
+            FilterMediaFiles();
+        }
+
+        private void textBoxMediaSuffix_TextChanged(object sender, EventArgs e)
+        {
+            FilterMediaFiles();
+        }
+
+        private void textBoxSubEpStart_TextChanged(object sender, EventArgs e)
+        {
+            FilterMediaFiles();
+        }
+
+        private void textBoxSubEpEnd_TextChanged(object sender, EventArgs e)
+        {
+            FilterMediaFiles();
+        }
+
+
+        /**
+         * Checkboxes changed
+         */
 
         private void checkBoxPrefix_CheckedChanged(object sender, EventArgs e)
         {
             textBoxMediaPrefix.Enabled = checkBoxPrefix.Checked;
             textBoxSubPrefix.Enabled = checkBoxPrefix.Checked;
+
+            FilterMediaFiles();
         }
 
         private void checkBoxEpisode_CheckedChanged(object sender, EventArgs e)
         {
             textBoxSubEpStart.Enabled = checkBoxEpisode.Checked;
             textBoxSubEpEnd.Enabled = checkBoxEpisode.Checked;
+
+            FilterMediaFiles();
         }
 
         private void checkBoxDelete_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxSubDelete.Enabled = checkBoxDelete.Checked;
+            FilterMediaFiles();
         }
 
         private void checkBoxAdd_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxSubAdd.Enabled = checkBoxAdd.Checked;
+            //textBoxSubAdd.Enabled = checkBoxAdd.Checked;
+
+            FilterMediaFiles();
         }
 
         private void checkBoxSuffix_CheckedChanged(object sender, EventArgs e)
         {
             textBoxMediaSuffix.Enabled = checkBoxSuffix.Checked;
             textBoxSubSuffix.Enabled = checkBoxSuffix.Checked;
+
+            FilterMediaFiles();
         }
     }
 }

@@ -172,6 +172,7 @@
             this.textBoxSubEpStart.Name = "textBoxSubEpStart";
             this.textBoxSubEpStart.Size = new System.Drawing.Size(59, 22);
             this.textBoxSubEpStart.TabIndex = 12;
+            this.textBoxSubEpStart.TextChanged += new System.EventHandler(this.textBoxSubEpStart_TextChanged);
             // 
             // textBoxSubEpEnd
             // 
@@ -179,6 +180,7 @@
             this.textBoxSubEpEnd.Name = "textBoxSubEpEnd";
             this.textBoxSubEpEnd.Size = new System.Drawing.Size(59, 22);
             this.textBoxSubEpEnd.TabIndex = 13;
+            this.textBoxSubEpEnd.TextChanged += new System.EventHandler(this.textBoxSubEpEnd_TextChanged);
             // 
             // textBoxSubPrefix
             // 
@@ -211,6 +213,7 @@
             this.textBoxMediaPrefix.Name = "textBoxMediaPrefix";
             this.textBoxMediaPrefix.Size = new System.Drawing.Size(180, 22);
             this.textBoxMediaPrefix.TabIndex = 17;
+            this.textBoxMediaPrefix.TextChanged += new System.EventHandler(this.textBoxMediaPrefix_TextChanged);
             // 
             // textBoxMediaSuffix
             // 
@@ -218,6 +221,7 @@
             this.textBoxMediaSuffix.Name = "textBoxMediaSuffix";
             this.textBoxMediaSuffix.Size = new System.Drawing.Size(180, 22);
             this.textBoxMediaSuffix.TabIndex = 18;
+            this.textBoxMediaSuffix.TextChanged += new System.EventHandler(this.textBoxMediaSuffix_TextChanged);
             // 
             // labelMedia
             // 
