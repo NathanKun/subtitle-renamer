@@ -188,6 +188,11 @@ namespace subtitle_renamer
                 }
             }
 
+            foreach(string s in canStartsWith)
+            {
+                Console.WriteLine(s);
+            }
+
             var shouldEndsWith = suffix + ext;
 
             if (ext.Length != 0)
@@ -395,19 +400,27 @@ namespace subtitle_renamer
         {
             if (mediaFiles.Count == 0 || mediaFiles.Count != subFiles.Count)
             {
+                MessageBox.Show("Number of media and sub are different", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
+            string mediaExt = textBoxMediaExtension.Text;
+            string subExt = textBoxSubExtension.Text;
+            string mediaPrefix = textBoxMediaPrefix.Text;
+            string subPrefix = textBoxSubPrefix.Text;
+            string mediaSuffix = textBoxMediaSuffix.Text;
+            string subSuffix = textBoxSubSuffix.Text;
+
             var results = new List<string>();
+
             for (int i = 0; i < mediaFiles.Count; i++)
             {
-                string mediaPrefix = textBoxMediaPrefix.Text;
-                string subPrefix = textBoxSubPrefix.Text;
 
                 int episodeStrLen = textBoxSubEpEnd.Text.Length;
 
                 var tmp = subFiles[i];
 
+                // prefix
                 if (checkBoxPrefix.Checked)
                 {
                     // remove sub prefix
@@ -423,6 +436,7 @@ namespace subtitle_renamer
                 }
 
                 // delete partToDelete
+                partToDelete = tmp.Substring(indexAfterEpisode, tmp.Length - indexAfterEpisode - subSuffix.Length - subExt.Length);
                 if (partToDelete.Length > 0)
                 {
                     var startPart = tmp.Substring(0, indexAfterEpisode);
@@ -430,11 +444,40 @@ namespace subtitle_renamer
                     var len = tmp.Length - iStart;
                     var endPart = tmp.Substring(iStart, len);
                     tmp = startPart + endPart;
+
+                    checkBoxDelete.Checked = true;
+                }
+
+                // add partToAdd
+                var mediaName = mediaFiles[i];
+                partToAdd = mediaName.Substring(mediaPrefix.Length + episodeStrLen);
+                partToAdd = partToAdd.Substring(0, partToAdd.Length - partToAdd.IndexOf(mediaSuffix));
+                if (partToAdd.Length > 0)
+                {
+                    var startPart = tmp.Substring(0, indexAfterEpisode);
+                    var endPart = tmp.Substring(indexAfterEpisode, tmp.Length - indexAfterEpisode);
+                    tmp = startPart + partToAdd + endPart;
+
+                    checkBoxAdd.Checked = true;
+                }
+
+                // suffix
+                if (checkBoxSuffix.Checked)
+                {
+                    // remove sub prefix
+                    tmp = tmp.Substring(0, tmp.IndexOf(subSuffix));
+                    // add media prefix
+                    tmp += mediaSuffix + subExt;
+                }
+
+                if (tmp == subExt)
+                {
+                    MessageBox.Show("Filename left only it's extension after delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
 
                 results.Add(tmp);
             }
-
 
             // update listview check
             listViewCheck.BeginUpdate();
@@ -451,6 +494,21 @@ namespace subtitle_renamer
             ListviewCheckAjustWidth();
             listViewCheck.EndUpdate();
 
+            // check if there are same filenames in results
+            for (int i = 0; i < results.Count; i++)
+            {
+                var r = results[i];
+
+                for (int j = i + 1; j < results.Count; j++)
+                {
+                    if (r == results[j])
+                    {
+                        MessageBox.Show("Same filename in result", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -459,14 +517,21 @@ namespace subtitle_renamer
          */
         private void buttonCheck_Click(object sender, EventArgs e)
         {
-            if (Check())
+            try
             {
-                MessageBox.Show("Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
+                if (Check())
+                {
+                    MessageBox.Show("Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                }
+            } catch (Exception ex)
             {
-                MessageBox.Show("Error", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Exception", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.WriteLine(ex.ToString());
             }
+            
         }
 
         private void buttonRename_Click(object sender, EventArgs e)
