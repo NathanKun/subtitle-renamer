@@ -56,13 +56,23 @@
             this.buttonRename = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
+            // buttonBrowse
+            // 
+            this.buttonBrowse.Location = new System.Drawing.Point(45, 7);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(41, 23);
+            this.buttonBrowse.TabIndex = 1;
+            this.buttonBrowse.Text = "...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
+            // 
             // labelDirpath
             // 
             this.labelDirpath.AutoSize = true;
             this.labelDirpath.Location = new System.Drawing.Point(13, 13);
             this.labelDirpath.Name = "labelDirpath";
             this.labelDirpath.Size = new System.Drawing.Size(26, 17);
-            this.labelDirpath.TabIndex = 0;
+            this.labelDirpath.TabIndex = 2;
             this.labelDirpath.Text = "Dir";
             // 
             // textBoxDir
@@ -70,17 +80,7 @@
             this.textBoxDir.Location = new System.Drawing.Point(92, 7);
             this.textBoxDir.Name = "textBoxDir";
             this.textBoxDir.Size = new System.Drawing.Size(930, 22);
-            this.textBoxDir.TabIndex = 1;
-            // 
-            // buttonBrowse
-            // 
-            this.buttonBrowse.Location = new System.Drawing.Point(45, 7);
-            this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(41, 23);
-            this.buttonBrowse.TabIndex = 2;
-            this.buttonBrowse.Text = "...";
-            this.buttonBrowse.UseVisualStyleBackColor = true;
-            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
+            this.textBoxDir.TabIndex = 2;
             // 
             // checkBoxPrefix
             // 
@@ -126,6 +126,17 @@
             this.checkBoxAdd.UseVisualStyleBackColor = true;
             this.checkBoxAdd.CheckedChanged += new System.EventHandler(this.checkBoxAdd_CheckedChanged);
             // 
+            // checkBoxSuffix
+            // 
+            this.checkBoxSuffix.AutoSize = true;
+            this.checkBoxSuffix.Location = new System.Drawing.Point(758, 44);
+            this.checkBoxSuffix.Name = "checkBoxSuffix";
+            this.checkBoxSuffix.Size = new System.Drawing.Size(64, 21);
+            this.checkBoxSuffix.TabIndex = 7;
+            this.checkBoxSuffix.Text = "Suffix";
+            this.checkBoxSuffix.UseVisualStyleBackColor = true;
+            this.checkBoxSuffix.CheckedChanged += new System.EventHandler(this.checkBoxSuffix_CheckedChanged);
+            // 
             // checkBoxExtension
             // 
             this.checkBoxExtension.AutoSize = true;
@@ -135,46 +146,32 @@
             this.checkBoxExtension.Location = new System.Drawing.Point(942, 44);
             this.checkBoxExtension.Name = "checkBoxExtension";
             this.checkBoxExtension.Size = new System.Drawing.Size(91, 21);
-            this.checkBoxExtension.TabIndex = 7;
+            this.checkBoxExtension.TabIndex = 8;
             this.checkBoxExtension.Text = "Extension";
             this.checkBoxExtension.UseVisualStyleBackColor = true;
             // 
-            // textBoxMediaExtension
+            // textBoxMediaPrefix
             // 
-            this.textBoxMediaExtension.Location = new System.Drawing.Point(942, 71);
-            this.textBoxMediaExtension.Name = "textBoxMediaExtension";
-            this.textBoxMediaExtension.Size = new System.Drawing.Size(80, 22);
-            this.textBoxMediaExtension.TabIndex = 8;
-            this.textBoxMediaExtension.TextChanged += new System.EventHandler(this.textBoxMediaExtension_TextChanged);
+            this.textBoxMediaPrefix.Location = new System.Drawing.Point(68, 71);
+            this.textBoxMediaPrefix.Name = "textBoxMediaPrefix";
+            this.textBoxMediaPrefix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxMediaPrefix.TabIndex = 9;
+            this.textBoxMediaPrefix.TextChanged += new System.EventHandler(this.textBoxMediaPrefix_TextChanged);
             // 
-            // textBoxSubExtension
+            // textBoxSubPrefix
             // 
-            this.textBoxSubExtension.Location = new System.Drawing.Point(942, 110);
-            this.textBoxSubExtension.Name = "textBoxSubExtension";
-            this.textBoxSubExtension.Size = new System.Drawing.Size(80, 22);
-            this.textBoxSubExtension.TabIndex = 9;
-            this.textBoxSubExtension.TextChanged += new System.EventHandler(this.textBoxSubExtension_TextChanged);
-            // 
-            // textBoxSubAdd
-            // 
-            this.textBoxSubAdd.Location = new System.Drawing.Point(570, 110);
-            this.textBoxSubAdd.Name = "textBoxSubAdd";
-            this.textBoxSubAdd.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubAdd.TabIndex = 10;
-            // 
-            // textBoxSubDelete
-            // 
-            this.textBoxSubDelete.Location = new System.Drawing.Point(384, 110);
-            this.textBoxSubDelete.Name = "textBoxSubDelete";
-            this.textBoxSubDelete.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubDelete.TabIndex = 11;
+            this.textBoxSubPrefix.Location = new System.Drawing.Point(68, 110);
+            this.textBoxSubPrefix.Name = "textBoxSubPrefix";
+            this.textBoxSubPrefix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubPrefix.TabIndex = 10;
+            this.textBoxSubPrefix.TextChanged += new System.EventHandler(this.textBoxSubPrefix_TextChanged);
             // 
             // textBoxSubEpStart
             // 
             this.textBoxSubEpStart.Location = new System.Drawing.Point(254, 110);
             this.textBoxSubEpStart.Name = "textBoxSubEpStart";
             this.textBoxSubEpStart.Size = new System.Drawing.Size(59, 22);
-            this.textBoxSubEpStart.TabIndex = 12;
+            this.textBoxSubEpStart.TabIndex = 11;
             this.textBoxSubEpStart.TextChanged += new System.EventHandler(this.textBoxSubEpStart_TextChanged);
             // 
             // textBoxSubEpEnd
@@ -182,16 +179,30 @@
             this.textBoxSubEpEnd.Location = new System.Drawing.Point(319, 110);
             this.textBoxSubEpEnd.Name = "textBoxSubEpEnd";
             this.textBoxSubEpEnd.Size = new System.Drawing.Size(59, 22);
-            this.textBoxSubEpEnd.TabIndex = 13;
+            this.textBoxSubEpEnd.TabIndex = 12;
             this.textBoxSubEpEnd.TextChanged += new System.EventHandler(this.textBoxSubEpEnd_TextChanged);
             // 
-            // textBoxSubPrefix
+            // textBoxSubDelete
             // 
-            this.textBoxSubPrefix.Location = new System.Drawing.Point(68, 110);
-            this.textBoxSubPrefix.Name = "textBoxSubPrefix";
-            this.textBoxSubPrefix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubPrefix.TabIndex = 14;
-            this.textBoxSubPrefix.TextChanged += new System.EventHandler(this.textBoxSubPrefix_TextChanged);
+            this.textBoxSubDelete.Location = new System.Drawing.Point(384, 110);
+            this.textBoxSubDelete.Name = "textBoxSubDelete";
+            this.textBoxSubDelete.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubDelete.TabIndex = 13;
+            // 
+            // textBoxSubAdd
+            // 
+            this.textBoxSubAdd.Location = new System.Drawing.Point(570, 110);
+            this.textBoxSubAdd.Name = "textBoxSubAdd";
+            this.textBoxSubAdd.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubAdd.TabIndex = 14;
+            // 
+            // textBoxMediaSuffix
+            // 
+            this.textBoxMediaSuffix.Location = new System.Drawing.Point(756, 71);
+            this.textBoxMediaSuffix.Name = "textBoxMediaSuffix";
+            this.textBoxMediaSuffix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxMediaSuffix.TabIndex = 15;
+            this.textBoxMediaSuffix.TextChanged += new System.EventHandler(this.textBoxMediaSuffix_TextChanged);
             // 
             // textBoxSubSuffix
             // 
@@ -201,32 +212,21 @@
             this.textBoxSubSuffix.TabIndex = 16;
             this.textBoxSubSuffix.TextChanged += new System.EventHandler(this.textBoxSubSuffix_TextChanged);
             // 
-            // checkBoxSuffix
+            // textBoxMediaExtension
             // 
-            this.checkBoxSuffix.AutoSize = true;
-            this.checkBoxSuffix.Location = new System.Drawing.Point(758, 44);
-            this.checkBoxSuffix.Name = "checkBoxSuffix";
-            this.checkBoxSuffix.Size = new System.Drawing.Size(64, 21);
-            this.checkBoxSuffix.TabIndex = 15;
-            this.checkBoxSuffix.Text = "Suffix";
-            this.checkBoxSuffix.UseVisualStyleBackColor = true;
-            this.checkBoxSuffix.CheckedChanged += new System.EventHandler(this.checkBoxSuffix_CheckedChanged);
+            this.textBoxMediaExtension.Location = new System.Drawing.Point(942, 71);
+            this.textBoxMediaExtension.Name = "textBoxMediaExtension";
+            this.textBoxMediaExtension.Size = new System.Drawing.Size(80, 22);
+            this.textBoxMediaExtension.TabIndex = 17;
+            this.textBoxMediaExtension.TextChanged += new System.EventHandler(this.textBoxMediaExtension_TextChanged);
             // 
-            // textBoxMediaPrefix
+            // textBoxSubExtension
             // 
-            this.textBoxMediaPrefix.Location = new System.Drawing.Point(68, 71);
-            this.textBoxMediaPrefix.Name = "textBoxMediaPrefix";
-            this.textBoxMediaPrefix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxMediaPrefix.TabIndex = 17;
-            this.textBoxMediaPrefix.TextChanged += new System.EventHandler(this.textBoxMediaPrefix_TextChanged);
-            // 
-            // textBoxMediaSuffix
-            // 
-            this.textBoxMediaSuffix.Location = new System.Drawing.Point(756, 71);
-            this.textBoxMediaSuffix.Name = "textBoxMediaSuffix";
-            this.textBoxMediaSuffix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxMediaSuffix.TabIndex = 18;
-            this.textBoxMediaSuffix.TextChanged += new System.EventHandler(this.textBoxMediaSuffix_TextChanged);
+            this.textBoxSubExtension.Location = new System.Drawing.Point(942, 110);
+            this.textBoxSubExtension.Name = "textBoxSubExtension";
+            this.textBoxSubExtension.Size = new System.Drawing.Size(80, 22);
+            this.textBoxSubExtension.TabIndex = 18;
+            this.textBoxSubExtension.TextChanged += new System.EventHandler(this.textBoxSubExtension_TextChanged);
             // 
             // labelMedia
             // 
