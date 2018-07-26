@@ -1,6 +1,6 @@
 # Subtitle Files Renamer
 Batch rename subtitle files to match the name of their media file.  
-So that your media player can autoload the subtitle file when you open youor media file.  
+So that your media player (like potplayer) can autoload the subtitle file when you open your media file.  
 
 ## Explication
 Media files and subtitle files are normally composed by:  
