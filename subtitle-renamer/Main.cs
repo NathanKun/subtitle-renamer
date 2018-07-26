@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace subtitle_renamer
@@ -16,6 +10,7 @@ namespace subtitle_renamer
         private List<string> files = new List<string>();
         private List<string> mediaFiles = new List<string>();
         private List<string> subFiles = new List<string>();
+        private List<string> results = new List<string>();
 
         private string partToAdd = "";
         private string partToDelete = "";
@@ -186,11 +181,6 @@ namespace subtitle_renamer
                 {
                     canStartsWith.Add(prefix + ep);
                 }
-            }
-
-            foreach(string s in canStartsWith)
-            {
-                Console.WriteLine(s);
             }
 
             var shouldEndsWith = suffix + ext;
@@ -411,7 +401,7 @@ namespace subtitle_renamer
             string mediaSuffix = textBoxMediaSuffix.Text;
             string subSuffix = textBoxSubSuffix.Text;
 
-            var results = new List<string>();
+            results.Clear();
 
             for (int i = 0; i < mediaFiles.Count; i++)
             {
@@ -451,7 +441,7 @@ namespace subtitle_renamer
                 // add partToAdd
                 var mediaName = mediaFiles[i];
                 partToAdd = mediaName.Substring(mediaPrefix.Length + episodeStrLen);
-                partToAdd = partToAdd.Substring(0, partToAdd.Length - partToAdd.IndexOf(mediaSuffix));
+                partToAdd = partToAdd.Substring(0, partToAdd.Length - mediaSuffix.Length - mediaExt.Length);
                 if (partToAdd.Length > 0)
                 {
                     var startPart = tmp.Substring(0, indexAfterEpisode);
@@ -521,14 +511,14 @@ namespace subtitle_renamer
             {
                 if (Check())
                 {
-                    MessageBox.Show("Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Check Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show("Exception", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Exception", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine(ex.ToString());
             }
             
@@ -538,11 +528,37 @@ namespace subtitle_renamer
         {
             if (Check())
             {
+                for (int i = 0; i < subFiles.Count; i++)
+                {
+                    string dir = textBoxDir.Text + "\\";
+                    string oldFilename = subFiles[i];
+                    var splited = oldFilename.Split('\\');
+                    splited[splited.Length - 1] = results[i];
+                    var newFilename = string.Join("\\", splited);
 
+                    File.Move(dir + oldFilename, dir + newFilename);
+                }
+
+                MessageBox.Show("Rename Success", "Rename Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // refresh
+                files.Clear();
+
+                var filesWithDir = Directory.GetFiles(textBoxDir.Text);
+                foreach (string f in filesWithDir)
+                {
+                    string[] splited = f.Split('\\');
+
+                    files.Add(splited[splited.Length - 1]);
+                }
+
+                var extTmp = textBoxSubExtension.Text;
+                textBoxSubExtension.Text = ".";
+                textBoxSubExtension.Text = extTmp;
             }
             else
             {
-
+                MessageBox.Show("Rename check failed", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
