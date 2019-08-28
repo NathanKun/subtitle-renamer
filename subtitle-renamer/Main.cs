@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace subtitle_renamer
 {
@@ -226,15 +227,17 @@ namespace subtitle_renamer
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var dialog = new CommonOpenFileDialog())
             {
-                DialogResult result = fbd.ShowDialog();
+                dialog.InitialDirectory = "C:\\";
+                dialog.IsFolderPicker = true;
+                CommonFileDialogResult result = dialog.ShowDialog();
 
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                if (result == CommonFileDialogResult.Ok && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
                     files.Clear();
 
-                    var filesWithDir = Directory.GetFiles(fbd.SelectedPath);
+                    var filesWithDir = Directory.GetFiles(dialog.FileName);
                     foreach (string f in filesWithDir)
                     {
                         string[] splited = f.Split('\\');
@@ -242,7 +245,7 @@ namespace subtitle_renamer
                         files.Add(splited[splited.Length - 1]);
                     }
 
-                    textBoxDir.Text = fbd.SelectedPath;
+                    textBoxDir.Text = dialog.FileName;
 
                     textBoxMediaExtension.Enabled = true;
                     textBoxSubExtension.Enabled = true;
@@ -251,8 +254,8 @@ namespace subtitle_renamer
                     checkBoxEpisode.Enabled = true;
                     checkBoxSuffix.Enabled = true;
 
-                    //checkBoxAdd.Enabled = true;
-                    //checkBoxDelete.Enabled = true;
+                    FilterMediaFiles();
+                    FilterSubFiles();
                 }
             }
         }

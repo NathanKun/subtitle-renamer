@@ -56,16 +56,6 @@
             this.buttonRename = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonBrowse
-            // 
-            this.buttonBrowse.Location = new System.Drawing.Point(45, 7);
-            this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(41, 23);
-            this.buttonBrowse.TabIndex = 1;
-            this.buttonBrowse.Text = "...";
-            this.buttonBrowse.UseVisualStyleBackColor = true;
-            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
-            // 
             // labelDirpath
             // 
             this.labelDirpath.AutoSize = true;
@@ -81,6 +71,16 @@
             this.textBoxDir.Name = "textBoxDir";
             this.textBoxDir.Size = new System.Drawing.Size(930, 22);
             this.textBoxDir.TabIndex = 2;
+            // 
+            // buttonBrowse
+            // 
+            this.buttonBrowse.Location = new System.Drawing.Point(45, 7);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(41, 23);
+            this.buttonBrowse.TabIndex = 1;
+            this.buttonBrowse.Text = "...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
             // 
             // checkBoxPrefix
             // 
@@ -126,17 +126,6 @@
             this.checkBoxAdd.UseVisualStyleBackColor = true;
             this.checkBoxAdd.CheckedChanged += new System.EventHandler(this.checkBoxAdd_CheckedChanged);
             // 
-            // checkBoxSuffix
-            // 
-            this.checkBoxSuffix.AutoSize = true;
-            this.checkBoxSuffix.Location = new System.Drawing.Point(758, 44);
-            this.checkBoxSuffix.Name = "checkBoxSuffix";
-            this.checkBoxSuffix.Size = new System.Drawing.Size(64, 21);
-            this.checkBoxSuffix.TabIndex = 7;
-            this.checkBoxSuffix.Text = "Suffix";
-            this.checkBoxSuffix.UseVisualStyleBackColor = true;
-            this.checkBoxSuffix.CheckedChanged += new System.EventHandler(this.checkBoxSuffix_CheckedChanged);
-            // 
             // checkBoxExtension
             // 
             this.checkBoxExtension.AutoSize = true;
@@ -150,21 +139,35 @@
             this.checkBoxExtension.Text = "Extension";
             this.checkBoxExtension.UseVisualStyleBackColor = true;
             // 
-            // textBoxMediaPrefix
+            // textBoxMediaExtension
             // 
-            this.textBoxMediaPrefix.Location = new System.Drawing.Point(68, 71);
-            this.textBoxMediaPrefix.Name = "textBoxMediaPrefix";
-            this.textBoxMediaPrefix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxMediaPrefix.TabIndex = 9;
-            this.textBoxMediaPrefix.TextChanged += new System.EventHandler(this.textBoxMediaPrefix_TextChanged);
+            this.textBoxMediaExtension.Location = new System.Drawing.Point(942, 71);
+            this.textBoxMediaExtension.Name = "textBoxMediaExtension";
+            this.textBoxMediaExtension.Size = new System.Drawing.Size(80, 22);
+            this.textBoxMediaExtension.TabIndex = 17;
+            this.textBoxMediaExtension.TextChanged += new System.EventHandler(this.textBoxMediaExtension_TextChanged);
             // 
-            // textBoxSubPrefix
+            // textBoxSubExtension
             // 
-            this.textBoxSubPrefix.Location = new System.Drawing.Point(68, 110);
-            this.textBoxSubPrefix.Name = "textBoxSubPrefix";
-            this.textBoxSubPrefix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubPrefix.TabIndex = 10;
-            this.textBoxSubPrefix.TextChanged += new System.EventHandler(this.textBoxSubPrefix_TextChanged);
+            this.textBoxSubExtension.Location = new System.Drawing.Point(942, 110);
+            this.textBoxSubExtension.Name = "textBoxSubExtension";
+            this.textBoxSubExtension.Size = new System.Drawing.Size(80, 22);
+            this.textBoxSubExtension.TabIndex = 18;
+            this.textBoxSubExtension.TextChanged += new System.EventHandler(this.textBoxSubExtension_TextChanged);
+            // 
+            // textBoxSubAdd
+            // 
+            this.textBoxSubAdd.Location = new System.Drawing.Point(570, 110);
+            this.textBoxSubAdd.Name = "textBoxSubAdd";
+            this.textBoxSubAdd.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubAdd.TabIndex = 14;
+            // 
+            // textBoxSubDelete
+            // 
+            this.textBoxSubDelete.Location = new System.Drawing.Point(384, 110);
+            this.textBoxSubDelete.Name = "textBoxSubDelete";
+            this.textBoxSubDelete.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubDelete.TabIndex = 13;
             // 
             // textBoxSubEpStart
             // 
@@ -182,27 +185,13 @@
             this.textBoxSubEpEnd.TabIndex = 12;
             this.textBoxSubEpEnd.TextChanged += new System.EventHandler(this.textBoxSubEpEnd_TextChanged);
             // 
-            // textBoxSubDelete
+            // textBoxSubPrefix
             // 
-            this.textBoxSubDelete.Location = new System.Drawing.Point(384, 110);
-            this.textBoxSubDelete.Name = "textBoxSubDelete";
-            this.textBoxSubDelete.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubDelete.TabIndex = 13;
-            // 
-            // textBoxSubAdd
-            // 
-            this.textBoxSubAdd.Location = new System.Drawing.Point(570, 110);
-            this.textBoxSubAdd.Name = "textBoxSubAdd";
-            this.textBoxSubAdd.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubAdd.TabIndex = 14;
-            // 
-            // textBoxMediaSuffix
-            // 
-            this.textBoxMediaSuffix.Location = new System.Drawing.Point(756, 71);
-            this.textBoxMediaSuffix.Name = "textBoxMediaSuffix";
-            this.textBoxMediaSuffix.Size = new System.Drawing.Size(180, 22);
-            this.textBoxMediaSuffix.TabIndex = 15;
-            this.textBoxMediaSuffix.TextChanged += new System.EventHandler(this.textBoxMediaSuffix_TextChanged);
+            this.textBoxSubPrefix.Location = new System.Drawing.Point(68, 110);
+            this.textBoxSubPrefix.Name = "textBoxSubPrefix";
+            this.textBoxSubPrefix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxSubPrefix.TabIndex = 10;
+            this.textBoxSubPrefix.TextChanged += new System.EventHandler(this.textBoxSubPrefix_TextChanged);
             // 
             // textBoxSubSuffix
             // 
@@ -212,21 +201,32 @@
             this.textBoxSubSuffix.TabIndex = 16;
             this.textBoxSubSuffix.TextChanged += new System.EventHandler(this.textBoxSubSuffix_TextChanged);
             // 
-            // textBoxMediaExtension
+            // checkBoxSuffix
             // 
-            this.textBoxMediaExtension.Location = new System.Drawing.Point(942, 71);
-            this.textBoxMediaExtension.Name = "textBoxMediaExtension";
-            this.textBoxMediaExtension.Size = new System.Drawing.Size(80, 22);
-            this.textBoxMediaExtension.TabIndex = 17;
-            this.textBoxMediaExtension.TextChanged += new System.EventHandler(this.textBoxMediaExtension_TextChanged);
+            this.checkBoxSuffix.AutoSize = true;
+            this.checkBoxSuffix.Location = new System.Drawing.Point(758, 44);
+            this.checkBoxSuffix.Name = "checkBoxSuffix";
+            this.checkBoxSuffix.Size = new System.Drawing.Size(64, 21);
+            this.checkBoxSuffix.TabIndex = 7;
+            this.checkBoxSuffix.Text = "Suffix";
+            this.checkBoxSuffix.UseVisualStyleBackColor = true;
+            this.checkBoxSuffix.CheckedChanged += new System.EventHandler(this.checkBoxSuffix_CheckedChanged);
             // 
-            // textBoxSubExtension
+            // textBoxMediaPrefix
             // 
-            this.textBoxSubExtension.Location = new System.Drawing.Point(942, 110);
-            this.textBoxSubExtension.Name = "textBoxSubExtension";
-            this.textBoxSubExtension.Size = new System.Drawing.Size(80, 22);
-            this.textBoxSubExtension.TabIndex = 18;
-            this.textBoxSubExtension.TextChanged += new System.EventHandler(this.textBoxSubExtension_TextChanged);
+            this.textBoxMediaPrefix.Location = new System.Drawing.Point(68, 71);
+            this.textBoxMediaPrefix.Name = "textBoxMediaPrefix";
+            this.textBoxMediaPrefix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxMediaPrefix.TabIndex = 9;
+            this.textBoxMediaPrefix.TextChanged += new System.EventHandler(this.textBoxMediaPrefix_TextChanged);
+            // 
+            // textBoxMediaSuffix
+            // 
+            this.textBoxMediaSuffix.Location = new System.Drawing.Point(756, 71);
+            this.textBoxMediaSuffix.Name = "textBoxMediaSuffix";
+            this.textBoxMediaSuffix.Size = new System.Drawing.Size(180, 22);
+            this.textBoxMediaSuffix.TabIndex = 15;
+            this.textBoxMediaSuffix.TextChanged += new System.EventHandler(this.textBoxMediaSuffix_TextChanged);
             // 
             // labelMedia
             // 
@@ -248,6 +248,7 @@
             // 
             // listViewMedia
             // 
+            this.listViewMedia.HideSelection = false;
             this.listViewMedia.Location = new System.Drawing.Point(16, 149);
             this.listViewMedia.Name = "listViewMedia";
             this.listViewMedia.Size = new System.Drawing.Size(492, 267);
@@ -257,6 +258,7 @@
             // 
             // listViewSub
             // 
+            this.listViewSub.HideSelection = false;
             this.listViewSub.Location = new System.Drawing.Point(530, 149);
             this.listViewSub.Name = "listViewSub";
             this.listViewSub.Size = new System.Drawing.Size(492, 267);
@@ -266,6 +268,7 @@
             // 
             // listViewCheck
             // 
+            this.listViewCheck.HideSelection = false;
             this.listViewCheck.Location = new System.Drawing.Point(16, 429);
             this.listViewCheck.Name = "listViewCheck";
             this.listViewCheck.Size = new System.Drawing.Size(1006, 267);
@@ -277,7 +280,7 @@
             // 
             this.buttonCheck.Location = new System.Drawing.Point(13, 706);
             this.buttonCheck.Name = "buttonCheck";
-            this.buttonCheck.Size = new System.Drawing.Size(75, 23);
+            this.buttonCheck.Size = new System.Drawing.Size(75, 35);
             this.buttonCheck.TabIndex = 24;
             this.buttonCheck.Text = "Check";
             this.buttonCheck.UseVisualStyleBackColor = true;
@@ -287,9 +290,9 @@
             // 
             this.buttonRename.Location = new System.Drawing.Point(106, 706);
             this.buttonRename.Name = "buttonRename";
-            this.buttonRename.Size = new System.Drawing.Size(75, 23);
+            this.buttonRename.Size = new System.Drawing.Size(75, 35);
             this.buttonRename.TabIndex = 25;
-            this.buttonRename.Text = "Rename!";
+            this.buttonRename.Text = "Rename";
             this.buttonRename.UseVisualStyleBackColor = true;
             this.buttonRename.Click += new System.EventHandler(this.buttonRename_Click);
             // 
@@ -297,7 +300,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1037, 741);
+            this.ClientSize = new System.Drawing.Size(1037, 753);
             this.Controls.Add(this.buttonRename);
             this.Controls.Add(this.buttonCheck);
             this.Controls.Add(this.listViewCheck);
